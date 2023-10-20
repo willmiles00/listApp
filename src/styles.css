@@ -1,12 +1,87 @@
 html{
   background-color: aliceblue;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif, Helvetica, sans-serif;
+}
+
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+  text-align: center;
+}
+
+.inputField{
+  width: 100%;
+}
+
+header{
+  font-family: futura;
+  width: 100%;
+  font-size: x-large;
+  margin: 10px 0px;
+}
+
+input{
+  padding: 20px;
+  border: solid 2px rgb(210, 200, 200);
+  border-radius: 5px;
+  width: 50%;
+  
+}
+
+.addBtn{
+  height: 30px;
+  width: 30px;
+  background-color: rgb(152, 9, 9);
+  border: none;
+  font-weight: bolder;
+  color: white;
+  border-radius: 5px;
+}
+
+ul{
+  font-size: large;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  text-align: left;
+  width: max-content;
+
+list-style: circle;
+}
+
+.liData{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
 }
 
 li{
-  padding: 10px;
+  min-width: 100px;
+  text-align: left;
+  margin: 5px 0px;
+  padding: 10px 2px;
+  padding-right: 10px;
+  border: 2px solid black;
+  list-style: none;
+  border-radius: 5px;
+  background-color: white;
 }
 
-.completed{
-  text-decoration: line-through;
+
+
+.actionbtn{
+  padding-right: 5px;
+  filter: invert(43%) sepia(10%) saturate(7%) hue-rotate(15deg) brightness(92%) contrast(84%);
+}
+
+.actionbtn:hover{
+  filter: invert(0%) sepia(100%) saturate(21%) hue-rotate(2deg) brightness(92%) contrast(108%);
+}
+
+.done{
+  text-decoration: line-through 2px;
 }

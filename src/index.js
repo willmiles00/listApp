@@ -1,9 +1,24 @@
-let todoList = document.querySelector(".todoList");
-let inputText = document.querySelector("#inputText");
-let inputButton = document.querySelector("#inputButton");
-let tasksLeft = document.querySelector('#tasksLeft')
-let clearList = document.querySelector('#clearList')
+const todoList = document.querySelector(".todoList");
+const addBtn = document.querySelector(".addBtn")
+const inputText = document.querySelector(".inputText")
+const tasksleft = document.querySelector("#tasksLeft")
 
+
+addBtn.addEventListener('click', () =>{
+  const newTask = inputText.value
+  addToDo(newTask)
+  viewtodos(todos)
+  inputText.value = ''
+})
+
+inputText.addEventListener('keypress', (e) =>{
+  if (e.key === 'Enter') {
+  const newTask = inputText.value
+  addToDo(newTask)
+  viewtodos(todos)
+  inputText.value = ''
+  }
+})
 
 //inital todos
 let todos = [
@@ -25,130 +40,83 @@ let todos = [
 ];
 
 
+// User can add todos
+function addToDo(todoText){
+  todos.push({
+    todoID: todos.length,
+    todoText,
+    todoComplete: false,
+  })
 
+}
 
 // User can view todos
-function viewtodos() {
-  todos.forEach((todo) => {
-    let li = document.createElement("li");
-    if (todo.todoComplete){li.classList.add('completed')}
-    li.textContent = todo.todoText;
-    todoList.appendChild(li);
+function viewtodos(todos) {
+
+  todoList.innerHTML = ''
+
+  todos.forEach(todo => {
+    
+    const done = todo.todoComplete ? 'done' : ''
+
+    const li = `<div class='liData'>
+    <li class='${done}' data-todoID='${todo.todoID}' data-todoText='${todo.todoText}'>
+${todo.todoText} 
+</li>
+<img data-pencilText='${todo.todoText}' class='actionbtn' src="media/pencil-solid.svg" height="20">
+<img data-trashID='${todo.todoID}' class='actionbtn' src="media/trash-solid.svg" height="20">
+</div>
+`
+
+todoList.insertAdjacentHTML("beforeend", li)
   });
-}
-
-
-
-
-
-
-// User can add todos
-function addtodos() {
-  if (inputText.value.length > 1) {
-    todos.push({
-      todoID: todos.length,
-      todoText: inputText.value,
-      todoComplete: false,
-    });}
-
-    todos.forEach((todo) => {
-      todoList.textContent = ''
-      viewtodos()
-    });
-  
-
-console.log(todos)
-    inputText.value = "";
-  
-}
-
 
 // App shows the user number of todos left to complete
-function todosLeft(){
-  const filtered = todos.filter((todo) => !todo.todoComplete)
-  const filteredLength = filtered.length
-  console.log(filteredLength)
-  tasksLeft.innerHTML = filteredLength
-
+  let remainingTodos = todos.filter(todo => !todo.todoComplete).length
+tasksleft.innerHTML = remainingTodos
 }
+
+
+
+
+
 
 
 // User can edit todos
-function edittodos() {
-  const listItems = document.querySelectorAll('li');
- listItems.forEach((listItem) => {
-
-
- listItem.addEventListener("dblclick", (e) => {
-  console.log(listItem.textContent)
- let editTextBox = document.createElement('input')
- editTextBox.placeholder = listItem.textContent
-listItem.replaceWith(editTextBox)
-
-editTextBox.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") {
- listItem.textContent = editTextBox.value
- editTextBox.replaceWith(listItem)
+todoList.addEventListener('click', (event) => {
+  if (event.target.dataset.penciltext != undefined){
+  let pencilText = event.target.dataset.penciltext
+  editTodo(pencilText)
+  viewtodos(todos)
+  console.log(todos)
   }
-});
+ })
 
-
-});
-
-})
+function editTodo(todoText){
+  let todoIndex = todos.findIndex(todo => todo.todoText === todoText)
+  todos[todoIndex].todoText = 'waaah the text has changed'
   }
 
-
-
-
-
-
-
-inputText.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") {
-    addtodos();
-    todosLeft()
-    edittodos();
-
+ //User can mark todos as complete
+todoList.addEventListener('click', (event) => {
+  if (event.target.dataset.todoid != undefined){
+  let clickedID = event.target.dataset.todoid
+  toggleTodo(parseInt(clickedID, 10))
+  viewtodos(todos)
   }
-});
-
-inputButton.addEventListener("click", (e) => {
-  addtodos();
-  todosLeft()
-  edittodos();
-
-});
+ })
 
 
+function toggleTodo(todoID){
+  let todoIndex = todos.findIndex(todo => todo.todoID === todoID)
+  todos[todoIndex].todoComplete = !todos[todoIndex].todoComplete
+  }
 
 // User can delete todos
-function deleteToDos(){
-  const listItems = document.querySelectorAll('li');
-  listItems.forEach((listItem) => {
-    listItem.addEventListener('click', (e)=>{
-      listItem.classList.toggle('completed')
-    })
-    
-  })
-} 
-
-function clearalltodos(){
- 
-  clearList.addEventListener('click', (e => {
-    todoList.textContent = ''
-    let clearedtodos = []
-    todos = clearedtodos
-    
-  }))
-  
-  }
 
 
-viewtodos();
-edittodos();
-deleteToDos()
-clearalltodos()
+
+viewtodos(todos);
 
 
 

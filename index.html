@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Parcel Sandbox</title>
+    <title>Let's To-Do This!</title>
     <link rel="stylesheet" href="src/styles.css">
     <meta charset="UTF-8" />
   </head>
@@ -11,19 +11,21 @@
   />
   <body>
     <div class="wrapper">
-      <header>Todo List</header>
+      <header>Let's To-Do This!</header>
+      <div class="footer">
+        <span>You have <span id="tasksLeft"></span> pending tasks.</span>
+        <button id="clearList">Clear List</button>
+      </div>
       <div class="inputField">
-        <input id="inputText" type="text" placeholder="Enter new task" />
-        <button id="inputButton"><i class="fas fa-plus">+</i></button>
+        <input class="inputText" type="text" placeholder="Enter new task" />
+        <button class="addBtn"><i class="fas fa-plus">+</i></button>
       </div>
       <ul class="todoList">
  <!-- JavaScript here -->
       </ul>
-      <div class="footer">
-        <span>You have <span id="tasksLeft">2</span> pending tasks.</span>
-        <button id="clearList">Clear List</button>
-      </div>
+
     </div>
+
 
     <div contenteditable="true">This text is editable</div>
 
