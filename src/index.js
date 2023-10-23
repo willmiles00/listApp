@@ -4,6 +4,7 @@ const inputText = document.querySelector(".inputText")
 const tasksleft = document.querySelector("#tasksLeft")
 const editInput = document.createElement('input');
 const editBox = document.querySelector('#editbox');
+const clearList = document.querySelector('#clearList')
 
 
 addBtn.addEventListener('click', () =>{
@@ -135,6 +136,20 @@ const filteredArray = todos.filter((todo) => {
 })
 todos = filteredArray
 console.log(todos)
+}
+
+
+//user can clear completed tasks
+clearList.addEventListener('click', (event) => {
+clearCompleted()
+viewtodos(todos)
+})
+
+function clearCompleted(){
+const filteredArray = todos.filter((todo) => {
+  return todo.todoComplete !== true
+})
+todos = filteredArray
 }
 
 
