@@ -2,6 +2,8 @@ const todoList = document.querySelector(".todoList");
 const addBtn = document.querySelector(".addBtn")
 const inputText = document.querySelector(".inputText")
 const tasksleft = document.querySelector("#tasksLeft")
+const editInput = document.createElement('input');
+const editBox = document.querySelector('#editbox');
 
 
 addBtn.addEventListener('click', () =>{
@@ -43,7 +45,7 @@ let todos = [
 // User can add todos
 function addToDo(todoText){
   todos.push({
-    todoID: todos.length,
+    todoID: todos.length +1,
     todoText,
     todoComplete: false,
   })
@@ -59,7 +61,7 @@ function viewtodos(todos) {
     
     const done = todo.todoComplete ? 'done' : ''
 
-    const li = `<div class='liData'>
+    const li = `<div data-todoID='${todo.todoID}' class='liData'>
     <li class='${done}' data-todoID='${todo.todoID}' data-todoText='${todo.todoText}'>
 ${todo.todoText} 
 </li>
@@ -86,16 +88,19 @@ tasksleft.innerHTML = remainingTodos
 todoList.addEventListener('click', (event) => {
   if (event.target.dataset.penciltext != undefined){
   let pencilText = event.target.dataset.penciltext
+
   editTodo(pencilText)
   viewtodos(todos)
-  console.log(todos)
+
   }
  })
 
 function editTodo(todoText){
   let todoIndex = todos.findIndex(todo => todo.todoText === todoText)
-  todos[todoIndex].todoText = 'waaah the text has changed'
+  todos[todoIndex].todoText = editBox.textContent
   }
+
+
 
  //User can mark todos as complete
 todoList.addEventListener('click', (event) => {
@@ -112,13 +117,28 @@ function toggleTodo(todoID){
   todos[todoIndex].todoComplete = !todos[todoIndex].todoComplete
   }
 
+
+
 // User can delete todos
+todoList.addEventListener('click', (event) =>{
+  if (event.target.dataset.trashid != undefined){
+ let clickedID = event.target.dataset.trashid
+
+    deleteTodo(parseInt(clickedID, 10))
+    viewtodos(todos)
+  }
+})
+
+function deleteTodo(clickedID){
+const filteredArray = todos.filter((todo) => {
+ return todo.todoID !== clickedID
+})
+todos = filteredArray
+console.log(todos)
+}
+
 
 
 
 viewtodos(todos);
-
-
-
-// App can delete (aka clear) all done todos at once.
 
