@@ -6,22 +6,9 @@ const editInput = document.createElement('input');
 const editBox = document.querySelector('#editbox');
 const clearList = document.querySelector('#clearList')
 const categoriesSection = document.querySelector("#categoriesSection")
+const categoriesInput = document.querySelector(".categoriesInput")
 
-addBtn.addEventListener('click', () =>{
-  const newTask = inputText.value
-  addToDo(newTask)
-  viewtodos(todos)
-  inputText.value = ''
-})
 
-inputText.addEventListener('keypress', (e) =>{
-  if (e.key === 'Enter') {
-  const newTask = inputText.value
-  addToDo(newTask)
-  viewtodos(todos)
-  inputText.value = ''
-  }
-})
 
 //inital todos
 let todos = [
@@ -47,13 +34,31 @@ let todos = [
 
 
 // User can add todos
+addBtn.addEventListener('click', () =>{
+  const newTask = inputText.value
+  addToDo(newTask)
+  viewtodos(todos)
+  inputText.value = ''
+})
+
+inputText.addEventListener('keypress', (e) =>{
+  if (e.key === 'Enter') {
+  const newTask = inputText.value
+  addToDo(newTask)
+  viewtodos(todos)
+  inputText.value = ''
+  }
+})
+
+
+
 function addToDo(todoText){
   todos.push({
     todoID: todos.length +1,
     todoText,
     todoComplete: false,
+    categories: null,
   })
-
 }
 
 // User can view todos
@@ -179,6 +184,7 @@ let categories = [
 //User can view categories
 function viewCategories(categories) {
 
+  categoriesSection.innerHTML = ''
   categories.forEach(category => {
     
 
@@ -194,6 +200,15 @@ categoriesSection.insertAdjacentHTML("beforeend", li)
 }
 
 // user can add categories
+categoriesInput.addEventListener('keypress', (e) =>{
+  if (e.key === 'Enter') {
+  const newCategory = categoriesInput.value
+  addCategory(newCategory)
+  viewCategories(categories)
+  categoriesInput.value = ''
+  }
+})
+
 function addCategory(categoryText){
   categories.push({
     categoryID: categories.length +1,
@@ -205,5 +220,5 @@ function addCategory(categoryText){
 // user can edit categories
 // user can delete categories
 
-console.log(addCategory('schmooda'))
 viewCategories(categories)
+
