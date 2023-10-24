@@ -41,7 +41,7 @@ input{
   border-radius: 5px;
 }
 
-ul{
+.todoList{
   font-size: large;
   display: flex;
   flex-direction: column;
@@ -59,7 +59,7 @@ list-style: circle;
   align-items: center;
 }
 
-li{
+.todoList li{
   min-width: 100px;
   text-align: left;
   margin: 5px 0px;
@@ -99,4 +99,8 @@ li{
   border-radius: 3px;
   font-size: medium;
   width: 50%;
+}
+
+#categoriesSection{
+  border: 1px solid black;
 }

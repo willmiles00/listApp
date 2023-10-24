@@ -5,7 +5,7 @@ const tasksleft = document.querySelector("#tasksLeft")
 const editInput = document.createElement('input');
 const editBox = document.querySelector('#editbox');
 const clearList = document.querySelector('#clearList')
-
+const categoriesSection = document.querySelector("#categoriesSection")
 
 addBtn.addEventListener('click', () =>{
   const newTask = inputText.value
@@ -29,16 +29,19 @@ let todos = [
     todoID: 0,
     todoText: "Finish Homework",
     todoComplete: false,
+    categories: 'School',
   },
   {
     todoID: 1,
     todoText: "Walk the dog",
     todoComplete: true,
+    categories: 'Home',
   },
   {
     todoID: 2,
     todoText: "Clean my room",
     todoComplete: false,
+    categories: 'Home',
   },
 ];
 
@@ -78,10 +81,6 @@ todoList.insertAdjacentHTML("beforeend", li)
   let remainingTodos = todos.filter(todo => !todo.todoComplete).length
 tasksleft.innerHTML = remainingTodos
 }
-
-
-
-
 
 
 
@@ -157,3 +156,54 @@ todos = filteredArray
 
 viewtodos(todos);
 
+
+//Categories schtuff
+
+
+//initial categories
+let categories = [
+  {
+    categoryID: 0,
+    categoryText: "School",
+  },
+  {
+    categoryID: 1,
+    categoryText: "Work",
+  },
+  {
+    categoryID: 2,
+    categoryText: "Home",
+  },
+];
+
+//User can view categories
+function viewCategories(categories) {
+
+  categories.forEach(category => {
+    
+
+    const li = `<div data-todoID='${category.categoryID}' class='liData'>
+    <li  data-todoID='${category.categoryID}' data-todoText='${category.categoryText}'>
+${category.categoryText} 
+</li>
+</div>
+`
+
+categoriesSection.insertAdjacentHTML("beforeend", li)
+  });
+}
+
+// user can add categories
+function addCategory(categoryText){
+  categories.push({
+    categoryID: categories.length +1,
+    categoryText,
+  })
+
+}
+
+// user can edit categories
+// user can delete categories
+
+console.log(addCategory('schmooda'))
+viewCategories(categories)
