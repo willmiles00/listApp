@@ -9,26 +9,25 @@ const categoriesSection = document.querySelector("#categoriesSection")
 const categoriesInput = document.querySelector(".categoriesInput")
 
 
-
 //inital todos
 let todos = [
   {
     todoID: 0,
     todoText: "Finish Homework",
     todoComplete: false,
-    categories: 'School',
+    categories: [2],
   },
   {
     todoID: 1,
     todoText: "Walk the dog",
     todoComplete: true,
-    categories: 'Home',
+    categories: [1],
   },
   {
     todoID: 2,
     todoText: "Clean my room",
     todoComplete: false,
-    categories: 'Home',
+    categories: [2, 1, 0,],
   },
 ];
 
@@ -57,7 +56,7 @@ function addToDo(todoText){
     todoID: todos.length +1,
     todoText,
     todoComplete: false,
-    categories: null,
+    categories: [],
   })
 }
 
@@ -76,6 +75,8 @@ ${todo.todoText}
 </li>
 <img data-pencilText='${todo.todoText}' class='actionbtn' src="media/pencil-solid.svg" height="20">
 <img data-trashID='${todo.todoID}' class='actionbtn' src="media/trash-solid.svg" height="20">
+<button data-categoriesBtn='${todo.todoID}'>Categories</button>
+
 </div>
 `
 
@@ -85,6 +86,7 @@ todoList.insertAdjacentHTML("beforeend", li)
 // App shows the user number of todos left to complete
   let remainingTodos = todos.filter(todo => !todo.todoComplete).length
 tasksleft.innerHTML = remainingTodos
+
 }
 
 
@@ -96,7 +98,7 @@ todoList.addEventListener('click', (event) => {
 
   editTodo(pencilText)
   viewtodos(todos)
-
+ 
   }
  })
 
@@ -139,7 +141,6 @@ const filteredArray = todos.filter((todo) => {
  return todo.todoID !== clickedID
 })
 todos = filteredArray
-console.log(todos)
 }
 
 
@@ -219,6 +220,23 @@ function addCategory(categoryText){
 
 // user can edit categories
 // user can delete categories
-
 viewCategories(categories)
 
+
+todoList.addEventListener('click', (event)=>{
+ if (event.target.dataset.categoriesbtn != undefined){
+  let eventID = event.target.dataset.categoriesbtn
+  let todoCategoryFetcher = todos.forEach((todo)=> {
+   if (eventID == todo.todoID){let correspondingCategory =  todo.categories
+    console.log(correspondingCategory)
+    correspondingCategory.forEach((category)=>{
+      console.log(categories[category].categoryText)
+    })
+
+   
+    //I need to use filter... I think...
+  }
+  })
+
+  
+ }})
