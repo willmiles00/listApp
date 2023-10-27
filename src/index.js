@@ -212,7 +212,7 @@ categoriesInput.addEventListener('keypress', (e) =>{
 
 function addCategory(categoryText){
   categories.push({
-    categoryID: categories.length +1,
+    categoryID: categories.length,
     categoryText,
   })
 
