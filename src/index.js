@@ -15,7 +15,7 @@ let todos = [
     todoID: 0,
     todoText: "Finish Homework",
     todoComplete: false,
-    categories: [2],
+    categories: [0],
   },
   {
     todoID: 1,
@@ -28,6 +28,22 @@ let todos = [
     todoText: "Clean my room",
     todoComplete: false,
     categories: [2, 1, 0,],
+  },
+];
+
+//initial categories
+let categories = [
+  {
+    categoryID: 0,
+    categoryText: "School",
+  },
+  {
+    categoryID: 1,
+    categoryText: "Work",
+  },
+  {
+    categoryID: 2,
+    categoryText: "Home",
   },
 ];
 
@@ -66,17 +82,30 @@ function viewtodos(todos) {
   todoList.innerHTML = ''
 
   todos.forEach(todo => {
+
+
+    const categoriesForEachToDo = categories.filter((category) =>  {
+      return todo.categories.includes(category.categoryID)
+    })
+    console.log(todo.categoriesForEachToDo)
+
+    const categoriesButtons = categoriesForEachToDo.map((category) => {
+      return `<button>${category.categoryText}</button>`;
+    });
+    
+    
+
     
     const done = todo.todoComplete ? 'done' : ''
 
-    const li = `<div data-todoID='${todo.todoID}' class='liData'>
+    const li =  `<div data-todoID='${todo.todoID}' class='liData'>
     <li class='${done}' data-todoID='${todo.todoID}' data-todoText='${todo.todoText}'>
 ${todo.todoText} 
 </li>
 <img data-pencilText='${todo.todoText}' class='actionbtn' src="media/pencil-solid.svg" height="20">
 <img data-trashID='${todo.todoID}' class='actionbtn' src="media/trash-solid.svg" height="20">
 <button data-categoriesBtn='${todo.todoID}'>Categories</button>
-
+${categoriesButtons}
 </div>
 `
 
@@ -87,6 +116,8 @@ todoList.insertAdjacentHTML("beforeend", li)
   let remainingTodos = todos.filter(todo => !todo.todoComplete).length
 tasksleft.innerHTML = remainingTodos
 
+
+returnCategoriesForToDos()
 }
 
 
@@ -166,21 +197,7 @@ viewtodos(todos);
 //Categories schtuff
 
 
-//initial categories
-let categories = [
-  {
-    categoryID: 0,
-    categoryText: "School",
-  },
-  {
-    categoryID: 1,
-    categoryText: "Work",
-  },
-  {
-    categoryID: 2,
-    categoryText: "Home",
-  },
-];
+
 
 //User can view categories
 function viewCategories(categories) {
@@ -189,11 +206,10 @@ function viewCategories(categories) {
   categories.forEach(category => {
     
 
-    const li = `<div data-todoID='${category.categoryID}' class='liData'>
-    <li  data-todoID='${category.categoryID}' data-todoText='${category.categoryText}'>
+    const li = `
+    <input type='checkbox' data-categoryID='${category.categoryID}' data-categoryText='${category.categoryText}'>
 ${category.categoryText} 
-</li>
-</div>
+</input>
 `
 
 categoriesSection.insertAdjacentHTML("beforeend", li)
@@ -226,17 +242,29 @@ viewCategories(categories)
 todoList.addEventListener('click', (event)=>{
  if (event.target.dataset.categoriesbtn != undefined){
   let eventID = event.target.dataset.categoriesbtn
-  let todoCategoryFetcher = todos.forEach((todo)=> {
-   if (eventID == todo.todoID){let correspondingCategory =  todo.categories
-    console.log(correspondingCategory)
+  console.log(eventID)
+  todos.forEach((todo)=> {
+   if (eventID == todo.todoID){let correspondingCategory =  todo.categories //fetches the category number from the todo
     correspondingCategory.forEach((category)=>{
-      console.log(categories[category].categoryText)
+      let theCategoriesForThisSpecificItem = categories[category].categoryText  //fetches the category text
+      console.log(theCategoriesForThisSpecificItem)
     })
-
-   
     //I need to use filter... I think...
   }
   })
 
   
  }})
+
+ function returnCategoriesForToDos(){todos.forEach((todo)=>{
+  const categoriesForEachToDo = categories.filter((category) =>  {
+
+    return todo.categories.includes(category.categoryID)
+  })
+  console.log(categoriesForEachToDo)
+  categoriesForEachToDo.forEach((category) => {
+    let categoryButton = `<button>${category.categoryText} </button>`
+  })
+})}
+
+

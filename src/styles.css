@@ -23,7 +23,7 @@ header{
   margin: 10px 0px;
 }
 
-input{
+.categoriesInput{
   padding: 20px;
   border: solid 2px rgb(210, 200, 200);
   border-radius: 5px;
@@ -33,12 +33,13 @@ input{
 
 .addBtn{
   height: 30px;
-  width: 30px;
+  width: 80%;
   background-color: rgb(152, 9, 9);
   border: none;
   font-weight: bolder;
   color: white;
   border-radius: 5px;
+  margin-top: 10px;
 }
 
 .todoList{
@@ -102,7 +103,8 @@ list-style: circle;
 }
 
 #categoriesSection{
-  border: 1px solid black;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .hidden{
