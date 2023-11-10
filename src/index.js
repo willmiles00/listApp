@@ -104,8 +104,8 @@ ${todo.todoText}
 </li>
 <img data-pencilText='${todo.todoText}' class='actionbtn' src="media/pencil-solid.svg" height="20">
 <img data-trashID='${todo.todoID}' class='actionbtn' src="media/trash-solid.svg" height="20">
-<button data-categoriesBtn='${todo.todoID}'>Categories</button>
 ${categoriesButtons}
+<select data-categoriesBtn='${todo.todoID}'>+ <option>Add a Category</option></select>
 </div>
 `
 
