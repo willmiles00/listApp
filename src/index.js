@@ -84,10 +84,11 @@ function viewtodos(todos) {
   todos.forEach(todo => {
 
 
+
+    //adds categories to each new todo
     const categoriesForEachToDo = categories.filter((category) =>  {
       return todo.categories.includes(category.categoryID)
     })
-    console.log(todo.categoriesForEachToDo)
 
     const categoriesButtons = categoriesForEachToDo.map((category) => {
       return `<button>${category.categoryText}</button>`;
@@ -105,7 +106,7 @@ ${todo.todoText}
 <img data-pencilText='${todo.todoText}' class='actionbtn' src="media/pencil-solid.svg" height="20">
 <img data-trashID='${todo.todoID}' class='actionbtn' src="media/trash-solid.svg" height="20">
 ${categoriesButtons}
-<select data-categoriesBtn='${todo.todoID}'>+ <option>Add a Category</option></select>
+<select data-categoriesBtn='${todo.todoID}'>+ <option value="">Add a Category</option></select>
 </div>
 `
 
@@ -117,7 +118,7 @@ todoList.insertAdjacentHTML("beforeend", li)
 tasksleft.innerHTML = remainingTodos
 
 
-returnCategoriesForToDos()
+
 }
 
 
@@ -216,6 +217,47 @@ categoriesSection.insertAdjacentHTML("beforeend", li)
   });
 }
 
+
+
+
+//user can filter by categories
+categoriesSection.addEventListener('change', (event)=>{
+  if (event.target.dataset.categoryid != undefined){
+  
+    let clickedID = event.target.dataset.categoryid
+    filterCategories(clickedID)
+
+
+     }
+
+     
+
+})
+
+function filterCategories(clickedID){
+
+  const checkedCategories = [];
+
+for (const checkbox of categoriesSection.querySelectorAll('input[type="checkbox"]:checked')) {
+  const categoryID = parseInt(checkbox.dataset.categoryid, 10);
+  checkedCategories.push(categoryID);
+}
+
+  
+todosFilteredByCategory = todos.filter((todo) => {
+  return checkedCategories.every((category) => todo.categories.includes(category));
+});
+viewtodos(todosFilteredByCategory)
+
+}
+
+
+
+
+// const categoriesForEachToDo = categories.filter((category) =>  {
+//   return todo.categories.includes(category.categoryID)
+// })
+
 // user can add categories
 categoriesInput.addEventListener('keypress', (e) =>{
   if (e.key === 'Enter') {
@@ -249,22 +291,11 @@ todoList.addEventListener('click', (event)=>{
       let theCategoriesForThisSpecificItem = categories[category].categoryText  //fetches the category text
       console.log(theCategoriesForThisSpecificItem)
     })
-    //I need to use filter... I think...
   }
   })
 
   
  }})
 
- function returnCategoriesForToDos(){todos.forEach((todo)=>{
-  const categoriesForEachToDo = categories.filter((category) =>  {
-
-    return todo.categories.includes(category.categoryID)
-  })
-  console.log(categoriesForEachToDo)
-  categoriesForEachToDo.forEach((category) => {
-    let categoryButton = `<button>${category.categoryText} </button>`
-  })
-})}
 
 
