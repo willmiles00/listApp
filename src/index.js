@@ -258,7 +258,7 @@ viewtodos(todosFilteredByCategory)
 //   return todo.categories.includes(category.categoryID)
 // })
 
-// user can add categories
+// user can add categories to the category list
 categoriesInput.addEventListener('keypress', (e) =>{
   if (e.key === 'Enter') {
   const newCategory = categoriesInput.value
@@ -276,6 +276,18 @@ function addCategory(categoryText){
 
 }
 
+// user can add category to a todo
+// todoList.addEventListener('click', (event =>{
+//   addCategoryToTodo(event)
+// }))
+
+
+  //have a drop down with every category not associated with the todo task
+  //clicking on a task adds it to the categories of the todo
+
+
+
+
 // user can edit categories
 // user can delete categories
 viewCategories(categories)
@@ -284,18 +296,25 @@ viewCategories(categories)
 todoList.addEventListener('click', (event)=>{
  if (event.target.dataset.categoriesbtn != undefined){
   let eventID = event.target.dataset.categoriesbtn
-  console.log(eventID)
-  todos.forEach((todo)=> {
-   if (eventID == todo.todoID){let correspondingCategory =  todo.categories //fetches the category number from the todo
-    correspondingCategory.forEach((category)=>{
-      let theCategoriesForThisSpecificItem = categories[category].categoryText  //fetches the category text
-      console.log(theCategoriesForThisSpecificItem)
-    })
-  }
-  })
+  addCategoryToTodo(eventID)
+ 
 
   
  }})
 
 
 
+ function addCategoryToTodo(eventID) {
+  todos.forEach((todo) => {
+    if (eventID == todo.todoID) {
+      let correspondingCategories = todo.categories; // fetches the category numbers from the todo
+      let allCategories = categories.map((category) => category.categoryID); // gets all category IDs
+      let categoriesNotYetAddedToThisTodo = allCategories.filter(
+        (category) => !correspondingCategories.includes(category)
+      ); // filters out categories already associated with the todo
+      let notYetAddedCategories = categories.filter((category) => categoriesNotYetAddedToThisTodo.includes(category.categoryID)); // get the corresponding category objects
+      let unaddedCategoryNames = notYetAddedCategories.map((category) => category.categoryText); // get the category names
+      console.log(unaddedCategoryNames);
+    }
+  });
+}
