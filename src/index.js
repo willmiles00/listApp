@@ -1,13 +1,12 @@
 const todoList = document.querySelector(".todoList");
-const addBtn = document.querySelector(".addBtn")
-const inputText = document.querySelector(".inputText")
-const tasksleft = document.querySelector("#tasksLeft")
-const editInput = document.createElement('input');
-const editBox = document.querySelector('#editbox');
-const clearList = document.querySelector('#clearList')
-const categoriesSection = document.querySelector("#categoriesSection")
-const categoriesInput = document.querySelector(".categoriesInput")
-
+const addBtn = document.querySelector(".addBtn");
+const inputText = document.querySelector(".inputText");
+const tasksleft = document.querySelector("#tasksLeft");
+const editInput = document.createElement("input");
+const editBox = document.querySelector("#editbox");
+const clearList = document.querySelector("#clearList");
+const categoriesSection = document.querySelector("#categoriesSection");
+const categoriesInput = document.querySelector(".categoriesInput");
 
 //inital todos
 let todos = [
@@ -27,7 +26,7 @@ let todos = [
     todoID: 2,
     todoText: "Clean my room",
     todoComplete: false,
-    categories: [2, 1, 0,],
+    categories: [2, 1, 0],
   },
 ];
 
@@ -47,59 +46,49 @@ let categories = [
   },
 ];
 
-
 // User can add todos
-addBtn.addEventListener('click', () =>{
-  const newTask = inputText.value
-  addToDo(newTask)
-  viewtodos(todos)
-  inputText.value = ''
-})
+addBtn.addEventListener("click", () => {
+  const newTask = inputText.value;
+  addToDo(newTask);
+  viewtodos(todos);
+  inputText.value = "";
+});
 
-inputText.addEventListener('keypress', (e) =>{
-  if (e.key === 'Enter') {
-  const newTask = inputText.value
-  addToDo(newTask)
-  viewtodos(todos)
-  inputText.value = ''
+inputText.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    const newTask = inputText.value;
+    addToDo(newTask);
+    viewtodos(todos);
+    inputText.value = "";
   }
-})
+});
 
-
-
-function addToDo(todoText){
+function addToDo(todoText) {
   todos.push({
-    todoID: todos.length +1,
+    todoID: todos.length + 1,
     todoText,
     todoComplete: false,
     categories: [],
-  })
+  });
 }
 
 // User can view todos
 function viewtodos(todos) {
+  todoList.innerHTML = "";
 
-  todoList.innerHTML = ''
-
-  todos.forEach(todo => {
-
-
-
+  todos.forEach((todo) => {
     //adds categories to each new todo
-    const categoriesForEachToDo = categories.filter((category) =>  {
-      return todo.categories.includes(category.categoryID)
-    })
+    const categoriesForEachToDo = categories.filter((category) => {
+      return todo.categories.includes(category.categoryID);
+    });
 
     const categoriesButtons = categoriesForEachToDo.map((category) => {
       return `<button>${category.categoryText}</button>`;
     });
-    
-    
 
-    
-    const done = todo.todoComplete ? 'done' : ''
+    const done = todo.todoComplete ? "done" : "";
 
-    const li =  `<div data-todoID='${todo.todoID}' class='liData'>
+    const li = `<div data-todoID='${todo.todoID}' class='liData'>
     <li class='${done}' data-todoID='${todo.todoID}' data-todoText='${todo.todoText}'>
 ${todo.todoText} 
 </li>
@@ -108,172 +97,138 @@ ${todo.todoText}
 ${categoriesButtons}
 <select data-categoriesBtn='${todo.todoID}'>+ <option value="">Add a Category</option></select>
 </div>
-`
+`;
 
-todoList.insertAdjacentHTML("beforeend", li)
+    todoList.insertAdjacentHTML("beforeend", li);
   });
 
-// App shows the user number of todos left to complete
-  let remainingTodos = todos.filter(todo => !todo.todoComplete).length
-tasksleft.innerHTML = remainingTodos
-
-
-
+  // App shows the user number of todos left to complete
+  let remainingTodos = todos.filter((todo) => !todo.todoComplete).length;
+  tasksleft.innerHTML = remainingTodos;
 }
-
-
 
 // User can edit todos
-todoList.addEventListener('click', (event) => {
-  if (event.target.dataset.penciltext != undefined){
-  let pencilText = event.target.dataset.penciltext
+todoList.addEventListener("click", (event) => {
+  if (event.target.dataset.penciltext != undefined) {
+    let pencilText = event.target.dataset.penciltext;
 
-  editTodo(pencilText)
-  viewtodos(todos)
- 
+    editTodo(pencilText);
+    viewtodos(todos);
   }
- })
+});
 
-function editTodo(todoText){
-  let todoIndex = todos.findIndex(todo => todo.todoText === todoText)
-  todos[todoIndex].todoText = editBox.textContent
+function editTodo(todoText) {
+  let todoIndex = todos.findIndex((todo) => todo.todoText === todoText);
+  todos[todoIndex].todoText = editBox.textContent;
+}
+
+//User can mark todos as complete
+todoList.addEventListener("click", (event) => {
+  if (event.target.dataset.todoid != undefined) {
+    let clickedID = event.target.dataset.todoid;
+    toggleTodo(parseInt(clickedID, 10));
+    viewtodos(todos);
   }
+});
 
-
-
- //User can mark todos as complete
-todoList.addEventListener('click', (event) => {
-  if (event.target.dataset.todoid != undefined){
-  let clickedID = event.target.dataset.todoid
-  toggleTodo(parseInt(clickedID, 10))
-  viewtodos(todos)
-  }
- })
-
-
-function toggleTodo(todoID){
-  let todoIndex = todos.findIndex(todo => todo.todoID === todoID)
-  todos[todoIndex].todoComplete = !todos[todoIndex].todoComplete
-  }
-
-
+function toggleTodo(todoID) {
+  let todoIndex = todos.findIndex((todo) => todo.todoID === todoID);
+  todos[todoIndex].todoComplete = !todos[todoIndex].todoComplete;
+}
 
 // User can delete todos
-todoList.addEventListener('click', (event) =>{
-  if (event.target.dataset.trashid != undefined){
- let clickedID = event.target.dataset.trashid
+todoList.addEventListener("click", (event) => {
+  if (event.target.dataset.trashid != undefined) {
+    let clickedID = event.target.dataset.trashid;
 
-    deleteTodo(parseInt(clickedID, 10))
-    viewtodos(todos)
+    deleteTodo(parseInt(clickedID, 10));
+    viewtodos(todos);
   }
-})
+});
 
-function deleteTodo(clickedID){
-const filteredArray = todos.filter((todo) => {
- return todo.todoID !== clickedID
-})
-todos = filteredArray
+function deleteTodo(clickedID) {
+  const filteredArray = todos.filter((todo) => {
+    return todo.todoID !== clickedID;
+  });
+  todos = filteredArray;
 }
-
 
 //user can clear completed tasks
-clearList.addEventListener('click', (event) => {
-clearCompleted()
-viewtodos(todos)
-})
+clearList.addEventListener("click", (event) => {
+  clearCompleted();
+  viewtodos(todos);
+});
 
-function clearCompleted(){
-const filteredArray = todos.filter((todo) => {
-  return todo.todoComplete !== true
-})
-todos = filteredArray
+function clearCompleted() {
+  const filteredArray = todos.filter((todo) => {
+    return todo.todoComplete !== true;
+  });
+  todos = filteredArray;
 }
-
-
-
 
 viewtodos(todos);
 
-
 //Categories schtuff
-
-
-
 
 //User can view categories
 function viewCategories(categories) {
-
-  categoriesSection.innerHTML = ''
-  categories.forEach(category => {
-    
-
+  categoriesSection.innerHTML = "";
+  categories.forEach((category) => {
     const li = `
     <input type='checkbox' data-categoryID='${category.categoryID}' data-categoryText='${category.categoryText}'>
 ${category.categoryText} 
 </input>
-`
+`;
 
-categoriesSection.insertAdjacentHTML("beforeend", li)
+    categoriesSection.insertAdjacentHTML("beforeend", li);
   });
 }
 
-
-
-
 //user can filter by categories
-categoriesSection.addEventListener('change', (event)=>{
-  if (event.target.dataset.categoryid != undefined){
-  
-    let clickedID = event.target.dataset.categoryid
-    filterCategories(clickedID)
+categoriesSection.addEventListener("change", (event) => {
+  if (event.target.dataset.categoryid != undefined) {
+    let clickedID = event.target.dataset.categoryid;
+    filterCategories(clickedID);
+  }
+});
 
-
-     }
-
-     
-
-})
-
-function filterCategories(clickedID){
-
+function filterCategories(clickedID) {
   const checkedCategories = [];
 
-for (const checkbox of categoriesSection.querySelectorAll('input[type="checkbox"]:checked')) {
-  const categoryID = parseInt(checkbox.dataset.categoryid, 10);
-  checkedCategories.push(categoryID);
+  for (const checkbox of categoriesSection.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  )) {
+    const categoryID = parseInt(checkbox.dataset.categoryid, 10);
+    checkedCategories.push(categoryID);
+  }
+
+  todosFilteredByCategory = todos.filter((todo) => {
+    return checkedCategories.every((category) =>
+      todo.categories.includes(category)
+    );
+  });
+  viewtodos(todosFilteredByCategory);
 }
-
-  
-todosFilteredByCategory = todos.filter((todo) => {
-  return checkedCategories.every((category) => todo.categories.includes(category));
-});
-viewtodos(todosFilteredByCategory)
-
-}
-
-
-
 
 // const categoriesForEachToDo = categories.filter((category) =>  {
 //   return todo.categories.includes(category.categoryID)
 // })
 
 // user can add categories to the category list
-categoriesInput.addEventListener('keypress', (e) =>{
-  if (e.key === 'Enter') {
-  const newCategory = categoriesInput.value
-  addCategory(newCategory)
-  viewCategories(categories)
-  categoriesInput.value = ''
+categoriesInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    const newCategory = categoriesInput.value;
+    addCategory(newCategory);
+    viewCategories(categories);
+    categoriesInput.value = "";
   }
-})
+});
 
-function addCategory(categoryText){
+function addCategory(categoryText) {
   categories.push({
     categoryID: categories.length,
     categoryText,
-  })
-
+  });
 }
 
 // user can add category to a todo
@@ -281,40 +236,38 @@ function addCategory(categoryText){
 //   addCategoryToTodo(event)
 // }))
 
-
-  //have a drop down with every category not associated with the todo task
-  //clicking on a task adds it to the categories of the todo
-
-
-
+//have a drop down with every category not associated with the todo task
+//clicking on a task adds it to the categories of the todo
 
 // user can edit categories
 // user can delete categories
-viewCategories(categories)
+viewCategories(categories);
 
+todoList.addEventListener("click", (event) => {
+  if (event.target.dataset.categoriesbtn != undefined) {
+    let eventID = event.target.dataset.categoriesbtn;
+    addCategoryToTodo(eventID);
+  }
+});
 
-todoList.addEventListener('click', (event)=>{
- if (event.target.dataset.categoriesbtn != undefined){
-  let eventID = event.target.dataset.categoriesbtn
-  addCategoryToTodo(eventID)
- 
-
-  
- }})
-
-
-
- function addCategoryToTodo(eventID) {
+function addCategoryToTodo(eventID) {
   todos.forEach((todo) => {
     if (eventID == todo.todoID) {
-      let correspondingCategories = todo.categories; // fetches the category numbers from the todo
-      let allCategories = categories.map((category) => category.categoryID); // gets all category IDs
+      let correspondingCategories = todo.categories;
+      let allCategories = categories.map((category) => category.categoryID);
       let categoriesNotYetAddedToThisTodo = allCategories.filter(
         (category) => !correspondingCategories.includes(category)
-      ); // filters out categories already associated with the todo
-      let notYetAddedCategories = categories.filter((category) => categoriesNotYetAddedToThisTodo.includes(category.categoryID)); // get the corresponding category objects
-      let unaddedCategoryNames = notYetAddedCategories.map((category) => category.categoryText); // get the category names
-      console.log(unaddedCategoryNames);
+      );
+      let notYetAddedCategories = categories.filter((category) =>
+        categoriesNotYetAddedToThisTodo.includes(category.categoryID)
+      );
+      let unaddedCategoryNames = notYetAddedCategories.map(
+        (category) => category.categoryText
+      );
+
+      console.log(unaddedCategoryNames)
+  
+      
     }
   });
 }
