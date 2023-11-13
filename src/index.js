@@ -95,7 +95,7 @@ ${todo.todoText}
 <img data-pencilText='${todo.todoText}' class='actionbtn' src="media/pencil-solid.svg" height="20">
 <img data-trashID='${todo.todoID}' class='actionbtn' src="media/trash-solid.svg" height="20">
 ${categoriesButtons}
-<select data-categoriesBtn='${todo.todoID}'>+ <option value="">Add a Category</option></select>
+<button data-categoriesBtn='${todo.todoID}'>Add a Category</button>
 </div>
 `;
 
@@ -265,7 +265,8 @@ function addCategoryToTodo(eventID) {
         (category) => category.categoryText
       );
 
-      console.log(unaddedCategoryNames)
+      unaddedCategoryNames.forEach((category) =>{console.log(category)})
+
   
       
     }
